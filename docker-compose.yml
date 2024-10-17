@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    container_name: rcecad_users_management
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3304:3306"
+    volumes:
+      - rcecad_users_data:/var/lib/rcecad_users_management
+
+volumes:
+  rcecad_users_data:
