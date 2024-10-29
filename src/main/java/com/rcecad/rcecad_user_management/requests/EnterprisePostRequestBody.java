@@ -19,16 +19,17 @@ public class EnterprisePostRequestBody {
     @Schema(description = "This is the enterprise's name", example = "Rafael Roani Gonçalves")
     private String name;
 
-    @NotEmpty(message = "The username cannot be empty")
-    @NotNull(message = "The username cannot be null")
-    private String username;
-
     @NotEmpty(message = "The enterprise email cannot be empty")
     @NotNull(message = "The enterprise email cannot be null")
     private String email;
 
+    @NotEmpty
+    @NotNull
+    @Length(min = 14, max = 14, message = "The enterprise cnpj ")
+    private String cnpj;
+
     @NotEmpty(message = "The enterprise password cannot be empty")
     @NotNull(message = "The enterprise password cannot be null")
-    @Length(min = 6)
+    @Length(min = 6, message = "The enterprise password")
     private String password;
 }

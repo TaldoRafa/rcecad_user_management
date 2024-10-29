@@ -1,6 +1,7 @@
 package com.rcecad.rcecad_user_management.controller;
 
 import com.rcecad.rcecad_user_management.infra.mysql.Enterprise;
+import com.rcecad.rcecad_user_management.requests.EnterpriseGetRequestBody;
 import com.rcecad.rcecad_user_management.requests.EnterprisePostRequestBody;
 import com.rcecad.rcecad_user_management.requests.LoginPostRequestBody;
 import com.rcecad.rcecad_user_management.service.EnterpriseService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/enterprises")
+@CrossOrigin(origins = "http://localhost/3000")
 @Log4j2
 @RequiredArgsConstructor
 public class EnterpriseController {
@@ -27,12 +29,12 @@ public class EnterpriseController {
     }
 
     @PostMapping
-    public ResponseEntity<Enterprise> create(@RequestBody @Valid EnterprisePostRequestBody enterprisePostRequestBody) {
+    public ResponseEntity<EnterpriseGetRequestBody> create(@RequestBody @Valid EnterprisePostRequestBody enterprisePostRequestBody) {
         return new ResponseEntity<>(enterpriseService.save(enterprisePostRequestBody), HttpStatus.CREATED);
     }
 
     @PostMapping("login")
-    public ResponseEntity<Enterprise> login(@RequestBody @Valid LoginPostRequestBody loginPostRequestBody) {
+    public ResponseEntity<EnterpriseGetRequestBody> login(@RequestBody @Valid LoginPostRequestBody loginPostRequestBody) {
         return new ResponseEntity<>(
                 enterpriseService.login(loginPostRequestBody.getEmail(), loginPostRequestBody.getPassword()),
                 HttpStatus.ACCEPTED

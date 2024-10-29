@@ -19,9 +19,10 @@ public class UserPostRequestBody {
     @Schema(description = "This is the User's name", example = "Rafael Roani Gonçalves")
     private String name;
 
-    @NotEmpty(message = "The username cannot be empty")
-    @NotNull(message = "The username cannot be null")
-    private String username;
+    @NotEmpty
+    @NotNull
+    @Length(min = 11, max = 11, message = "The user cpf ")
+    private String cpf;
 
     @NotEmpty(message = "The user email cannot be empty")
     @NotNull(message = "The user email cannot be null")
@@ -29,6 +30,6 @@ public class UserPostRequestBody {
 
     @NotEmpty(message = "The user password cannot be empty")
     @NotNull(message = "The user password cannot be null")
-    @Length(min = 6)
+    @Length(min = 6, message = "The user password ")
     private String password;
 }
