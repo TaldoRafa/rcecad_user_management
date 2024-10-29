@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/enterprises")
-@CrossOrigin(origins = "http://localhost/3000")
 @Log4j2
 @RequiredArgsConstructor
 public class EnterpriseController {
