@@ -17,6 +17,7 @@ public class UserMapper {
 
         user.getUserData().setCreateAt(LocalDate.now());
         user.getUserData().setName(userPostRequestBody.getName());
+        user.setCpf(userPostRequestBody.getCpf());
         user.getUserData().setEmail(userPostRequestBody.getEmail());
         user.getUserData().setPassword(userPostRequestBody.getPassword());
 

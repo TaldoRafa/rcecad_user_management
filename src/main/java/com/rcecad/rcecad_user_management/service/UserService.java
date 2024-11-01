@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -21,6 +23,13 @@ public class UserService {
     public Page<UserGetRequestBody> listAllUsersPageable(Pageable pageable) {
         Page<User> usersPage = userRepository.findAll(pageable);
         return usersPage.map(userMapper::toUserGetRequestBody);
+    }
+
+    public List<UserGetRequestBody> listAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toUserGetRequestBody)
+                .toList();
     }
 
     @Transactional
