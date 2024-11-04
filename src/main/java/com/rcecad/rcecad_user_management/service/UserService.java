@@ -5,6 +5,7 @@ import com.rcecad.rcecad_user_management.infra.mysql.repository.UserRepository;
 import com.rcecad.rcecad_user_management.mapper.UserMapper;
 import com.rcecad.rcecad_user_management.requests.UserGetRequestBody;
 import com.rcecad.rcecad_user_management.requests.UserPostRequestBody;
+import com.rcecad.rcecad_user_management.requests.UserPutRequestBody;
 import com.rcecad.rcecad_user_management.settings.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -53,14 +54,18 @@ public class UserService {
         );
     }
 
-    @Transactional
-    public void deleteById(Long id) {
-        userRepository.delete(findByIdOrElseThrowBadRequestException(id));
+    public void replace(UserPutRequestBody userPutRequestBody) {
+        User savedUser = findByIdOrElseThrowBadRequestException(userPutRequestBody.getId());
+        User user = userMapper.toUser(userPutRequestBody);
+        user.setId(savedUser.getId());
+        user.getUserData().setCreateAt(savedUser.getUserData().getCreateAt());
+
+        userRepository.save(user);
     }
 
     @Transactional
-    public void deleteByEmail(String email) {
-        userRepository.deleteByUserData_Email(email);
+    public void deleteById(Long id) {
+        userRepository.delete(findByIdOrElseThrowBadRequestException(id));
     }
 
     public User findByIdOrElseThrowBadRequestException(Long id) {

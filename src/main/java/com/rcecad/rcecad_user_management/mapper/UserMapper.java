@@ -4,6 +4,7 @@ import com.rcecad.rcecad_user_management.infra.mysql.User;
 import com.rcecad.rcecad_user_management.infra.mysql.UserData;
 import com.rcecad.rcecad_user_management.requests.UserGetRequestBody;
 import com.rcecad.rcecad_user_management.requests.UserPostRequestBody;
+import com.rcecad.rcecad_user_management.requests.UserPutRequestBody;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -30,6 +31,19 @@ public class UserMapper {
                 .cpf(user.getCpf())
                 .name(user.getUserData().getName())
                 .email(user.getUserData().getEmail())
+                .build();
+    }
+
+    public User toUser(UserPutRequestBody userPutRequestBody) {
+        UserData userData = UserData.builder()
+                .name(userPutRequestBody.getName())
+                .email(userPutRequestBody.getEmail())
+                .password(userPutRequestBody.getPassword())
+                .build();
+
+        return User.builder()
+                .cpf(userPutRequestBody.getCpf())
+                .userData(userData)
                 .build();
     }
 }

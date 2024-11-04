@@ -3,7 +3,10 @@ package com.rcecad.rcecad_user_management.controller;
 import com.rcecad.rcecad_user_management.requests.LoginPostRequestBody;
 import com.rcecad.rcecad_user_management.requests.UserGetRequestBody;
 import com.rcecad.rcecad_user_management.requests.UserPostRequestBody;
+import com.rcecad.rcecad_user_management.requests.UserPutRequestBody;
 import com.rcecad.rcecad_user_management.service.UserService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,10 +35,24 @@ public class UserController {
     }
 
     @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful Operation"),
+    })
     public ResponseEntity<List<UserGetRequestBody>> listAllUsers() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.listAll());
+    }
+
+    @GetMapping("email/{email}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful Operation"),
+            @ApiResponse(responseCode = "400", description = "When user Does Not Exist in The Database")
+    })
+    public ResponseEntity<UserGetRequestBody> findByEmail(@PathVariable String email) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.findByEmail(email));
     }
 
     @PostMapping
@@ -56,16 +73,15 @@ public class UserController {
                 );
     }
 
-    @GetMapping("email/{email}")
-    public ResponseEntity<UserGetRequestBody> findByEmail(@PathVariable String email) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userService.findByEmail(email));
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody @Valid UserPutRequestBody userPutRequestBody) {
+        userService.replace(userPutRequestBody);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         userService.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
