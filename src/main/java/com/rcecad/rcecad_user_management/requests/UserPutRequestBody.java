@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserPutRequestBody {
-    @NotEmpty(message = "The user id cannot be empty")
     @NotNull(message = "The user id cannot be null")
     @Schema(description = "This is the User´s Id", example = "0")
     private Long id;
